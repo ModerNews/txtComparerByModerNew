@@ -22,20 +22,42 @@ namespace txt_comparer
             string OriginalText = richTextBox1.Text;
             string ComparingText = richTextBox2.Text;
             List<Int32> mistakes = new List<Int32>();
-            for (int i = 0; i == richTextBox1.Lines.Length; i++)
+            Console.WriteLine("Working on it...");
+            for (int i = 0 ; i < richTextBox1.Lines.Length; i++)
             {
-                if (richTextBox1.Lines[i].Equals(richTextBox2.Lines[i]))
+                string line1 = richTextBox1.Lines[i];
+                string line2 = line1;
+                try
+                {
+                    line2 = richTextBox2.Lines[i];
+                }
+                catch
+                {
+                    continue;
+                }
+                bool eq = String.Equals(line1, line2);
+                if (richTextBox1.Lines.Length == 0)
+                { 
+                    break;
+                }
+                if(eq != true)
                 {
                     mistakes.Add(i);
+                    Console.WriteLine(mistakes);
                 }
             }
-            if(OriginalText.Equals(ComparingText) == true)
+            if(richTextBox1.Lines.Length == 0)
+            {
+                textBox1.Text = "You should type something in first";
+            }
+            else if(mistakes.Count == 0)
             {
                 textBox1.Text = "Those two texts are identical";
             }
             else
             {
                 string lines = String.Join(", ", mistakes.ToArray());
+                Console.WriteLine(lines);
                 textBox1.Text = "You made mistakes at lines: " +  lines;
             }
         }
